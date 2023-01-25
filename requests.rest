@@ -1,0 +1,1 @@
+GET http://localhost:3000/services/filter/{"first":0,"rows":5,"filters":{"name":{"value":"","matchMode":""},"description":{"value":"","matchMode":""},"price":{"value":"","matchMode":""},"createdDate":{"value":"","matchMode":""}}}

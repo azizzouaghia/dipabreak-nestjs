@@ -7,9 +7,9 @@ import { service, serviceDocument } from './schemas/service.schema';
 @Injectable()
 export class ServicesRepository {
     constructor(@InjectModel(service.name) private serviceModel: Model<serviceDocument>){}
-    //Trouver Des services
-    async find(servicesFilterQuery: FilterQuery<service>): Promise<service[]> {
-        return this.serviceModel.find(servicesFilterQuery);
+    //Obtenir Le Nombre Services
+    async getNombreServices(): Promise<number> {
+        return this.serviceModel.count();
     }
     //Trouver Une Seul Service
     async findOne(serviceFilterQuery: FilterQuery<service>): Promise<service> {
@@ -27,6 +27,10 @@ export class ServicesRepository {
     //Supprimer Une Service
     async delete(serviceFilterQuery: FilterQuery<service>) {
         return this.serviceModel.deleteOne(serviceFilterQuery);
+    }
+    //Filter & Pagination
+    async getCustomServices(first:number,rows:number) {
+        return this.serviceModel.find().limit(rows).skip(first);
     }
 
 }

@@ -8,9 +8,9 @@ import { createServiceDto,updateServiceDto } from './dto/services.dto';
 @Injectable()
 export class ServicesService {
     constructor(private readonly servicesRepository: ServicesRepository){}
-    //Trouver Tous Les Services
-    async getServices(): Promise<service[]> {
-        return this.servicesRepository.find({});
+    //Obtenir Le Nombre Services
+    async getNombreServices(): Promise<number> {
+        return this.servicesRepository.getNombreServices();
     }
     //Trouver Une Service Par Id
     async getServiceById(serviceId:string): Promise<service>{
@@ -33,6 +33,10 @@ export class ServicesService {
     //Supprimer Une Service
     async deleteService(serviceId:string){
         return this.servicesRepository.delete({serviceId});
+    }
+    //Filter & Pagination
+    async getCustomServices(first:number,rows:number): Promise<service[]>{
+        return this.servicesRepository.getCustomServices(first,rows);
     }
 
 }
