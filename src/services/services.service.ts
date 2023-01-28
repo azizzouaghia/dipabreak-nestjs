@@ -8,10 +8,6 @@ import { createServiceDto,updateServiceDto } from './dto/services.dto';
 @Injectable()
 export class ServicesService {
     constructor(private readonly servicesRepository: ServicesRepository){}
-    //Obtenir Le Nombre Services
-    async getNombreServices(): Promise<number> {
-        return this.servicesRepository.getNombreServices();
-    }
     //Trouver Une Service Par Id
     async getServiceById(serviceId:string): Promise<service>{
         return this.servicesRepository.findOne({serviceId});
@@ -35,8 +31,21 @@ export class ServicesService {
         return this.servicesRepository.delete({serviceId});
     }
     //Filter & Pagination
-    async getCustomServices(first:number,rows:number): Promise<service[]>{
-        return this.servicesRepository.getCustomServices(first,rows);
+    async getCustomServices(first:number,rows:number,filterValue:string,filterMatchMode:string,selectedValue:string): Promise<service[]>{
+        return this.servicesRepository.getCustomServices(
+            first,
+            rows,
+            filterValue,
+            filterMatchMode,
+            selectedValue
+        );
     }
 
+    async getCustomLength(filterValue:string,filterMatchMode:string,selectedValue:string): Promise<number>{
+        return this.servicesRepository.getCustomLength(
+            filterValue,
+            filterMatchMode,
+            selectedValue,
+        );
+    }
 }

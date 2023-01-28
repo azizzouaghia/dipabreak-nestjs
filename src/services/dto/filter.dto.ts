@@ -13,14 +13,10 @@ export class FilterDto {
     rows: number;
 
     @Type(() => Object)
-    name: { value: string; matchMode: string };
-
-    @Type(() => Object)
-    description: { value: string; matchMode: string };
-
-    @Type(() => Object)
-    price: { value: string; matchMode: string };
-
-    @Type(() => Object)
-    dateCreated: { value: string; matchMode: string };
+    filters: {
+        name: { value: string; matchMode: string };
+        description: { value: string; matchMode: string };
+        price: { value: string; matchMode: string };
+        dateCreated: { value: string; matchMode: string };
+    }
 }

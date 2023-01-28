@@ -8,11 +8,6 @@ import { ServicesService } from './services.service';
 @Controller('services')
 export class ServicesController {
     constructor(private readonly servicesService:ServicesService){}
-    //Obtenir Le Nombre Services
-    @Get('')
-    async getNombreServices(): Promise<number> {
-        return this.servicesService.getNombreServices();
-    }
     //Trouver Une Service Par serviceId
     @Get(':id')
     async getService(@Param('id') serviceId: string): Promise<service>{
@@ -37,11 +32,40 @@ export class ServicesController {
     }
     //Filter & Pagination
     @Get('filter/:filter')
-    async getCustomServices(@Param('filter') filters: string): Promise<service[]> {
+    async getCustomServices(@Param('filter') filters: string) {
         const filter: FilterDto = JSON.parse(filters);
         const first: number = filter.first;
         const rows: number = filter.rows;
-        return this.servicesService.getCustomServices(first,rows);
-    }
 
+        //Obtenir Le Champs Selectioner (name,description,price....)
+        const selectedValue:string[] = [];
+        Object.keys(filter.filters).forEach(function (key) {
+            if (filter.filters[key].value !== '') {
+                selectedValue.push(key);
+            }
+        });
+        let filterValue="" ;
+        let filterMatchMode=""; 
+        if(selectedValue[0]){
+            filterValue = filter.filters[selectedValue[0]].value;
+            filterMatchMode = filter.filters[selectedValue[0]].matchMode;
+        }else{
+            filterValue = filterValue = filter.filters.name.value;
+            filterMatchMode = filter.filters.name.matchMode;
+        }
+        const services = await this.servicesService.getCustomServices(
+            first,
+            rows,
+            filterValue,
+            filterMatchMode,
+            selectedValue[0],
+        );
+        const length = await this.servicesService.getCustomLength(
+            filterValue,
+            filterMatchMode,
+            selectedValue[0],
+        );
+        const result = { results: services, length: length };
+        return result;
+}
 }
