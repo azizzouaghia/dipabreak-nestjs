@@ -31,7 +31,7 @@ export class ServicesService {
         return this.servicesRepository.delete({serviceId});
     }
     //Filter & Pagination
-    async getCustomServices(first:number,rows:number,filterValue:string,filterMatchMode:string,selectedValue:string): Promise<service[]>{
+    async getCustomServices(first:number,rows:number,filterValue:any,filterMatchMode:string,selectedValue:string): Promise<service[]>{
         return this.servicesRepository.getCustomServices(
             first,
             rows,
@@ -41,7 +41,7 @@ export class ServicesService {
         );
     }
 
-    async getCustomLength(filterValue:string,filterMatchMode:string,selectedValue:string): Promise<number>{
+    async getCustomLength(filterValue:any,filterMatchMode:string,selectedValue:string): Promise<number>{
         return this.servicesRepository.getCustomLength(
             filterValue,
             filterMatchMode,

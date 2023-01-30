@@ -17,6 +17,8 @@ export class ServicesController {
     @Post()
     @UsePipes(new ValidationPipe())
     async createService(@Body() createdService: createServiceDto): Promise<service>{
+        createdService.name = createdService.name.trim();
+        createdService.description = createdService.description.trim();
         return this.servicesService.createService(createdService);
     }
     //Modifier Une Service
@@ -40,7 +42,7 @@ export class ServicesController {
         //Obtenir Le Champs Selectioner (name,description,price....)
         const selectedValue:string[] = [];
         Object.keys(filter.filters).forEach(function (key) {
-            if (filter.filters[key].value !== '') {
+            if (filter.filters[key].matchMode !== '') {
                 selectedValue.push(key);
             }
         });

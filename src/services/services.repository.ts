@@ -25,7 +25,7 @@ export class ServicesRepository {
         return this.serviceModel.deleteOne(serviceFilterQuery);
     }
     //Filter & Pagination
-    async getCustomServices(first:number,rows:number,filterValue:string,filterMatchMode:string,selectedValue:string) {
+    async getCustomServices(first:number,rows:number,filterValue:any,filterMatchMode:string,selectedValue:string) {
         const filter = {};
             if(filterMatchMode=="Start with"){
                 filter[selectedValue] = { $regex: `^${filterValue}`, $options: "i" } 
@@ -36,14 +36,16 @@ export class ServicesRepository {
             }else if (filterMatchMode=="Ends with"){
                 filter[selectedValue] = { $regex: `.*${filterValue}$`, $options: 'i' }; 
             }else if (filterMatchMode=="Equal"){
-                filter[selectedValue] = filterValue
+                filter[selectedValue] = { $eq: filterValue };
             }else if (filterMatchMode=="Not Equal"){
                 filter[selectedValue] = {$ne : filterValue}
+            }else if (filterMatchMode=="Filter"){
+                filter['createdDate'] = {$gte: filterValue.start,$lte: filterValue.end,};
             }
             return this.serviceModel.find(filter).skip(first).limit(rows);
     }
 
-    async getCustomLength(filterValue:string,filterMatchMode:string,selectedValue:string) {
+    async getCustomLength(filterValue:any,filterMatchMode:string,selectedValue:string) {
         const filter = {};
             if(filterMatchMode=="Start with"){
                 filter[selectedValue] = { $regex: `^${filterValue}`, $options: "i" } 
@@ -54,9 +56,11 @@ export class ServicesRepository {
             }else if (filterMatchMode=="Ends with"){
                 filter[selectedValue] = { $regex: `.*${filterValue}$`, $options: 'i' }; 
             }else if (filterMatchMode=="Equal"){
-                filter[selectedValue] = filterValue
+                filter[selectedValue] = { $eq: filterValue };
             }else if (filterMatchMode=="Not Equal"){
                 filter[selectedValue] = {$ne : filterValue}
+            }else if (filterMatchMode=="Filter"){
+                filter['createdDate'] = {$gte: filterValue.start,$lte: filterValue.end,};
             }
             return this.serviceModel.find(filter).count();
         }

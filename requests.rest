@@ -1,1 +1,1 @@
-GET http://localhost:3000/services/filter/{"first":0,"rows":5,"filters":{"name":{"value":"t","matchMode":"Start with"},"description":{"value":"","matchMode":""},"price":{"value":"","matchMode":""},"createdDate":{"value":"","matchMode":""}}}       
+GET http://localhost:3000/services/filter/{"first":0,"rows":5,"filters":{"name":{"value":"","matchMode":"Start with"},"description":{"value":"","matchMode":""},"price":{"value":"","matchMode":""},"createdDate":{"value":"{"start":"2023-01-03T23:00:00.000Z","end":"2023-01-12T23:00:00.000Z"}","matchMode":"Filter"}}}       

@@ -17,6 +17,12 @@ export class FilterDto {
         name: { value: string; matchMode: string };
         description: { value: string; matchMode: string };
         price: { value: string; matchMode: string };
-        dateCreated: { value: string; matchMode: string };
+        dateCreated: { 
+            value: {
+                start:Date;
+                end:Date
+            }; 
+            matchMode: string 
+        };
     }
 }
