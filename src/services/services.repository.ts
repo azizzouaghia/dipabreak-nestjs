@@ -25,43 +25,57 @@ export class ServicesRepository {
         return this.serviceModel.deleteOne(serviceFilterQuery);
     }
     //Filter & Pagination
-    async getCustomServices(first:number,rows:number,filterValue:any,filterMatchMode:string,selectedValue:string) {
-        const filter = {};
-            if(filterMatchMode=="Start with"){
-                filter[selectedValue] = { $regex: `^${filterValue}`, $options: "i" } 
-            }else if (filterMatchMode=="Contains"){
-                filter[selectedValue] = { $regex: `${filterValue}`, $options: "i" } 
-            }else if (filterMatchMode=="Not Contains"){
-                filter[selectedValue] = { $not: new RegExp(filterValue, "i") } 
-            }else if (filterMatchMode=="Ends with"){
-                filter[selectedValue] = { $regex: `.*${filterValue}$`, $options: 'i' }; 
-            }else if (filterMatchMode=="Equal"){
-                filter[selectedValue] = { $eq: filterValue };
-            }else if (filterMatchMode=="Not Equal"){
-                filter[selectedValue] = {$ne : filterValue}
-            }else if (filterMatchMode=="Filter"){
-                filter['createdDate'] = {$gte: filterValue.start,$lte: filterValue.end,};
-            }
-            return this.serviceModel.find(filter).skip(first).limit(rows);
+    async getCustomServices(
+        first: number,
+        rows: number,
+        filterValue: any,
+        filterMatchMode: string,
+        selectedValue: string[],
+    ) {
+    const filter = {};
+    selectedValue.forEach((value) => {
+        if (filterMatchMode[value] === 'Start with') {
+            filter[value] = { $regex: `^${filterValue[value]}`, $options: 'i' };
+        } else if (filterMatchMode[value] === 'Contains') {
+            filter[value] = { $regex: `${filterValue[value]}`, $options: 'i' };
+        } else if (filterMatchMode[value] === 'Not Contains') {
+            filter[value] = { $not: new RegExp(filterValue[value], 'i') };
+        } else if (filterMatchMode[value] === 'Ends with') {
+            filter[value] = { $regex: `.*${filterValue[value]}$`, $options: 'i' };
+        } else if (filterMatchMode[value] === 'Equal') {
+            filter[value] = { $eq: filterValue[value] };
+        } else if (filterMatchMode[value] === 'Not Equal') {
+            filter[value] = { $ne: filterValue[value] };
+        } else if (filterMatchMode[value] === 'Filter') {
+            filter['createdDate'] = {$gte: filterValue[value].start,$lte: filterValue[value].end,};
+        }
+    }); 
+        return this.serviceModel.find(filter).skip(first).limit(rows);
     }
 
-    async getCustomLength(filterValue:any,filterMatchMode:string,selectedValue:string) {
-        const filter = {};
-            if(filterMatchMode=="Start with"){
-                filter[selectedValue] = { $regex: `^${filterValue}`, $options: "i" } 
-            }else if (filterMatchMode=="Contains"){
-                filter[selectedValue] = { $regex: `${filterValue}`, $options: "i" } 
-            }else if (filterMatchMode=="Not Contains"){
-                filter[selectedValue] = { $not: new RegExp(filterValue, "i") } 
-            }else if (filterMatchMode=="Ends with"){
-                filter[selectedValue] = { $regex: `.*${filterValue}$`, $options: 'i' }; 
-            }else if (filterMatchMode=="Equal"){
-                filter[selectedValue] = { $eq: filterValue };
-            }else if (filterMatchMode=="Not Equal"){
-                filter[selectedValue] = {$ne : filterValue}
-            }else if (filterMatchMode=="Filter"){
-                filter['createdDate'] = {$gte: filterValue.start,$lte: filterValue.end,};
-            }
-            return this.serviceModel.find(filter).count();
+    async getCustomLength(
+        filterValue: any,
+        filterMatchMode: string,
+        selectedValue: string[],
+    ) {
+    const filter = {};
+    selectedValue.forEach((value) => {
+        if (filterMatchMode[value] === 'Start with') {
+            filter[value] = { $regex: `^${filterValue[value]}`, $options: 'i' };
+        } else if (filterMatchMode[value] === 'Contains') {
+            filter[value] = { $regex: `${filterValue[value]}`, $options: 'i' };
+        } else if (filterMatchMode[value] === 'Not Contains') {
+            filter[value] = { $not: new RegExp(filterValue[value], 'i') };
+        } else if (filterMatchMode[value] === 'Ends with') {
+            filter[value] = { $regex: `.*${filterValue[value]}$`, $options: 'i' };
+        } else if (filterMatchMode[value] === 'Equal') {
+            filter[value] = { $eq: filterValue[value] };
+        } else if (filterMatchMode[value] === 'Not Equal') {
+            filter[value] = { $ne: filterValue[value] };
+        } else if (filterMatchMode[value] === 'Filter') {
+            filter['createdDate'] = {$gte: filterValue[value].start,$lte: filterValue[value].end,};
         }
+    }); 
+        return this.serviceModel.find(filter).count();
+}
 }

@@ -33,41 +33,38 @@ export class ServicesController {
         return this.servicesService.deleteService(serviceId)
     }
     //Filter & Pagination
-    @Get('filter/:filter')
-    async getCustomServices(@Param('filter') filters: string) {
+    @Get("filter/:filter")
+    async getCustomAgents(@Param("filter") filters: string) {
         const filter: FilterDto = JSON.parse(filters);
         const first: number = filter.first;
         const rows: number = filter.rows;
 
-        //Obtenir Le Champs Selectioner (name,description,price....)
-        const selectedValue:string[] = [];
-        Object.keys(filter.filters).forEach(function (key) {
-            if (filter.filters[key].matchMode !== '') {
-                selectedValue.push(key);
+        // Obtenir the selected fields (name, description, price, etc.)
+        const selectedValue: string[] = [];
+        const filterMatchMode: any = {};
+        Object.keys(filter.filters).forEach(function(key) {
+            if (filter.filters[key].matchMode !== "") {
+            selectedValue.push(key);
+            filterMatchMode[key] = filter.filters[key].matchMode;
             }
         });
-        let filterValue="" ;
-        let filterMatchMode=""; 
-        if(selectedValue[0]){
-            filterValue = filter.filters[selectedValue[0]].value;
-            filterMatchMode = filter.filters[selectedValue[0]].matchMode;
-        }else{
-            filterValue = filterValue = filter.filters.name.value;
-            filterMatchMode = filter.filters.name.matchMode;
-        }
+        const filterValue = {};
+        selectedValue.forEach(value => {
+            filterValue[value] = filter.filters[value].value;
+        });
         const services = await this.servicesService.getCustomServices(
             first,
             rows,
             filterValue,
             filterMatchMode,
-            selectedValue[0],
+            selectedValue
         );
         const length = await this.servicesService.getCustomLength(
             filterValue,
             filterMatchMode,
-            selectedValue[0],
+            selectedValue
         );
         const result = { results: services, length: length };
         return result;
-}
+    }
 }

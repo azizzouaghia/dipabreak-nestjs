@@ -30,7 +30,7 @@ export class AgentsService {
         return this.agentsRepository.delete({agentId});
     }
     //Filter & Pagination
-    async getCustomAgents(first:number,rows:number,filterValue:any,filterMatchMode:string,selectedValue:string): Promise<agent[]>{
+    async getCustomAgents(first:number,rows:number,filterValue:any,filterMatchMode:string,selectedValue:string[]): Promise<agent[]>{
         return this.agentsRepository.getCustomAgents(
             first,
             rows,
@@ -40,7 +40,7 @@ export class AgentsService {
         );
     }
 
-    async getCustomLength(filterValue:any,filterMatchMode:string,selectedValue:string): Promise<number>{
+    async getCustomLength(filterValue:any,filterMatchMode:string,selectedValue:string[]): Promise<number>{
         return this.agentsRepository.getCustomLength(
             filterValue,
             filterMatchMode,
