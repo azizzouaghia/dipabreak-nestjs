@@ -1,5 +1,5 @@
 import { ServicesModule } from './services/services.module';
-import { ServicesController } from './services/services.controller';
+import { AgentsModule } from './agents/agents.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,6 +12,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       'mongodb+srv://ainzooalgown:0101Atlas@cluster0.wug3rze.mongodb.net/dipabreak',
     ),
     ServicesModule,
+    AgentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
