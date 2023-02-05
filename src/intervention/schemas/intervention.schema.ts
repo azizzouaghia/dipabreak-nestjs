@@ -1,26 +1,22 @@
 /* eslint-disable prettier/prettier */
-import {IsNumber,IsString,IsNotEmpty,IsBoolean} from 'class-validator'
+import {IsNumber,IsString,IsNotEmpty} from 'class-validator'
 import { Schema,Prop,SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 
-export type agentDocument = agent & Document;
+export type interventionDocument = intervention & Document;
 @Schema()
-export class agent {
+export class intervention {
 
     @IsString()
     @IsNotEmpty()
     @Prop()
-    agentId:string;
-
-    @IsString()
-    @IsNotEmpty()
-    @Prop()
-    name:string;
+    intId:string;
 
     @IsString()
     @IsNotEmpty()
     @Prop()
     email:string;
+
 
     @IsNotEmpty()
     @Prop()
@@ -29,7 +25,7 @@ export class agent {
     @IsString()
     @IsNotEmpty()
     @Prop()
-    password:string;
+    service:string;
 
     @IsNumber()
     @IsNotEmpty()
@@ -41,17 +37,14 @@ export class agent {
     @Prop()
     longitude:number;
 
-    @IsBoolean()
+    @IsNumber()
     @IsNotEmpty()
-    @Prop()
-    status:boolean
+    @Prop({default:0})
+    status:number
 
     @Prop({ default: Date.now })
     createdDate:Date
 
-    @Prop({type: [String], default: []})
-    services: string[] = [];
-
 }
 
-export const agentSchema = SchemaFactory.createForClass(agent);
+export const interventionSchema = SchemaFactory.createForClass(intervention);

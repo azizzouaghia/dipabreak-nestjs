@@ -9,27 +9,36 @@ export class AgentsRepository {
     constructor(
         @InjectModel(agent.name) private agentModel: Model<agentDocument>,
     ) {}
-  //Trouver Une Seul Agent
+    //Trouver Une Seul Agent
     async findOne(agentFilterQuery: FilterQuery<agent>): Promise<agent> {
         return this.agentModel.findOne(agentFilterQuery);
     }
-  //Cree Une Agent
+    //Cree Une Agent
     async create(agent: agent): Promise<agent> {
         const newAgent = new this.agentModel(agent);
         return newAgent.save();
     }
-  //Modifier Une Agent
+    //Modifier Une Agent
     async update(
         agentFilterQuery: FilterQuery<agent>,
         agent: Partial<agent>,
     ): Promise<agent> {
         return this.agentModel.findOneAndUpdate(agentFilterQuery, agent, {new: true,});
     }
-  //Supprimer Une Agent
+    //Supprimer Une Agent
     async delete(agentFilterQuery: FilterQuery<agent>) {
         return this.agentModel.deleteOne(agentFilterQuery);
     }
-  //Filter & Pagination
+
+    //Ajouter Une Service A Un Agent
+    async addServiceToAgent(agentId: string, serviceId: string) {
+        return this.agentModel.updateOne(
+            { agentId: agentId },
+            { $addToSet: { services: serviceId }}
+        );
+    }
+
+    //Filter & Pagination
     async getCustomAgents(
         first: number,
         rows: number,

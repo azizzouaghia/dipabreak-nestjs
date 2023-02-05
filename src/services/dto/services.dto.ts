@@ -37,10 +37,4 @@ export class updateServiceDto {
     @IsOptional()
     @IsBoolean()
     status?: boolean;
-
-    @IsOptional()
-    clients?: string[];
-
-    @IsOptional()
-    agents?: string[];
 }

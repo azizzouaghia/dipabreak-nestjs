@@ -29,6 +29,10 @@ export class AgentsService {
     async deleteAgent(agentId:string){
         return this.agentsRepository.delete({agentId});
     }
+    //Ajouter Une Service A Un Agent
+    async addServiceToAgent(agentId:string, serviceId: string) {
+        return this.agentsRepository.addServiceToAgent(agentId,serviceId);
+    }
     //Filter & Pagination
     async getCustomAgents(first:number,rows:number,filterValue:any,filterMatchMode:string,selectedValue:string[]): Promise<agent[]>{
         return this.agentsRepository.getCustomAgents(

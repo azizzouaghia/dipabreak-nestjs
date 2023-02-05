@@ -26,6 +26,12 @@ export class AgentsController {
     async updateAgent(@Body() updatedAgent: updateAgentDto,@Param('id') agentId:string): Promise<agent>{
         return this.agentsService.updateAgent(agentId,updatedAgent);
     }
+    //Ajouter Une Service A Un Agent
+    @Get("addService/:service")
+    async addServiceToAgent(@Param("service") addService: string) {
+        const addedService = JSON.parse(addService);
+        return this.agentsService.addServiceToAgent(addedService.agentId, addedService.serviceId);
+    }
     //Supprimer Un Agent
     @Delete(':id')
     async deleteAgent(@Param('id') agentId:string){

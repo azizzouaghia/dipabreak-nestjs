@@ -2,6 +2,8 @@
 import {IsNumber,IsPositive,IsString,IsNotEmpty,IsBoolean} from 'class-validator'
 import { Schema,Prop,SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
+import { agentSchema,agent } from 'src/agents/schemas/agent.schema';
+import { Type } from 'class-transformer';
 
 export type serviceDocument = service & Document;
 
@@ -40,8 +42,9 @@ export class service {
     @Prop([String])
     clients: string[]
 
-    @Prop([String])
-    agents: string[]
+    @Prop({type: [agentSchema], default: []})
+    @Type(() => agent)
+    agents: agent[]=[]
 
 }
 
